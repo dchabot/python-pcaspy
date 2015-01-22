@@ -1,0 +1,26 @@
+diff --git a/setup.py b/setup.py
+index 0155790..9a22c9b 100644
+--- a/setup.py
++++ b/setup.py
+@@ -47,11 +47,19 @@ if not EPICSBASE:
+     if EPICSROOT:
+         EPICSBASE = os.path.join(EPICSROOT, 'base')
+ if not EPICSBASE or not os.path.exists(EPICSBASE):
+-    raise IOError("Please define EPICS_BASE environment variable")
++    if 'debian' in platform.dist() and os.path.exists('/usr/lib/epics'):
++        EPICSBASE = '/usr/lib/epics'
++    else:
++        raise IOError("Please define EPICS_BASE environment variable")
+ 
+ HOSTARCH  = os.environ.get("EPICS_HOST_ARCH")
+ if not HOSTARCH:
+-    raise IOError("Please define EPICS_HOST_ARCH environment variable")
++    if 'Linux' in platform.system():
++        HOSTARCH = ''.join([platform.system().lower(),
++                            '-',
++                            platform.machine()])
++    else:
++         raise IOError("Please define EPICS_HOST_ARCH environment variable")
+ 
+ # common libraries to link
+ libraries = ['asIoc', 'cas', 'ca', 'gdd', 'Com']
