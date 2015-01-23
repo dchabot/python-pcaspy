@@ -1,0 +1,38 @@
+diff --git a/docs/source/conf.py b/docs/source/conf.py
+index 7415e76..e4fc889 100644
+--- a/docs/source/conf.py
++++ b/docs/source/conf.py
+@@ -19,18 +19,21 @@ import sys, os
+ sys.path.insert(0, os.path.abspath('../../'))
+ 
+ # mock binary modules
+-from mock import Mock as MagickMock
+-class Mock(MagickMock):
+-    class caServer(object):
+-        pass
+-    class casPV(object):
+-        pass
+-    @classmethod
+-    def __getattr__(cls, name):
+-        return Mock()
+-
+-MOCK_MODULES = ['cas']
+-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
++try:
++    from mock import Mock as MagickMock
++    class Mock(MagickMock):
++        class caServer(object):
++            pass
++        class casPV(object):
++            pass
++        @classmethod
++        def __getattr__(cls, name):
++            return Mock()
++
++    MOCK_MODULES = ['cas']
++    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
++except ImportError:
++    sys.stderr.write('Cannot import from mock module.\n')
+ 
+ # -- General configuration -----------------------------------------------------
+ 
