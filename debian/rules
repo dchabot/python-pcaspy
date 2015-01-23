@@ -8,4 +8,4 @@
 
 override_dh_auto_build:
 	dh_auto_build
-	sphinx-build docs
+	sphinx-build docs/source docs/html
