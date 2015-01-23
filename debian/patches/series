@@ -1,3 +1,4 @@
 0001-hack-for-debian-build.patch
 0003-experiment-setup-file.patch
 0004-trap-failed-import-of-mock.patch
+0005-avoid-inventory-file-download-from-web.patch
